@@ -7,10 +7,11 @@ import java.util.*;
 public class ObjectConnection {
   public static void main(String[] args) {
 	try (Connection c=doConnect()){
-	    Student s1=new Student(80,"Karna","Chennai");
-	   // addStudent(s1,c);
-	    ArrayList al=getStudent(c);
-	    System.out.println("Fetched Students "+al);
+	    Student s1=new Student(30,"Sita","Kolkata");
+	    // addStudent(s1,c);
+	     //ArrayList al=getStudent(c);
+	    // System.out.println("Fetched Students "+al);
+	   deleteStudent(30,c);
 		
 	} catch (SQLException | ClassNotFoundException e) {
 		// TODO Auto-generated catch block
@@ -44,11 +45,19 @@ public class ObjectConnection {
 	    ResultSet rs= st.executeQuery("SELECT * FROM student WHERE City='Pune'");
 	    ArrayList al=new ArrayList();
 	    while(rs.next())
-	    {Student s=new Student(rs.getInt(1),rs.getString(2),rs.getString(3));
+	    { Student s=new Student(rs.getInt(1),rs.getString(2),rs.getString(3));
 	      al.add(s);
+	      //  System.out.println(rs.getInt(1)+" "+rs.getString(2)+" "+rs.getString(3));	
 	    }
 	    return al;
 	    
+ }
+ public static void deleteStudent(int r,Connection c)throws SQLException
+ {
+   PreparedStatement pst=c.prepareStatement("DELETE FROM student WHERE Roll=?");
+   pst.setInt(1, r);
+   pst.executeUpdate();
+   System.out.println("Data Deleted Successfully..");
  }
 }
 
